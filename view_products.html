@@ -1,15 +1,14 @@
 <html>
 <head>
-<title>Food Supply Managment | Registration</title>
+<title>Product | View</title>
 <style>
 h1 {text-align:center;}
 h3 {text-align:center;}
 </style>
-
 </head>
     <body>
         <h1 align=ce>Food Supply Managment| AMT Manufacturers </h1>
-		<h3 align=ce>Registration</h3>
+		<h3 align=ce>View Products</h3>
         <script src="https://cdn.jsdelivr.net/npm/web3@1.2.8/dist/web3.js"></script>
     <script>	
 	
@@ -45,7 +44,7 @@ h3 {text-align:center;}
 			
 			});
     	
-        var abi = [
+        var abi =[
 	{
 		"anonymous": false,
 		"inputs": [
@@ -601,88 +600,70 @@ h3 {text-align:center;}
 	}
 ]
 
+
  var contractaddress = '0x27500a1e0f41Cc424805Cf6750B61CA3EC76b088';
- function set_details() {
+ function show_details() {
             var myContract = new web3.eth.Contract(abi,contractaddress, {from: account, gasPrice: '5000000', gas: '500000'});
-			
-			var productName = document.getElementById("productname").value; 
-			var brandName = document.getElementById("brandname").value;
-			var category = document.getElementById("productcategory").value;
-			var quantity = document.getElementById("quantity").value;
-			var rate =  document.getElementById("rate").value; 
-			var region =  document.getElementById("region").value; 
-			
-			var prodId = Math.floor(Math.random()*10000000);
-			
-            var result = myContract.methods.addFoodProducts(prodId,productName,brandName,category,quantity,rate,region).send(function (err,result) {
+            var prod_id = document.getElementById("productid").value;
+             var result = myContract.methods.viewFoodProducts(prod_id).call(function (err, result) {
                
                 if (err) { console.log(err); }
                 if (result) { 
-				
-				document.getElementById("result").innerHTML = result; 
-				document.getElementById("result4").innerHTML =prodId;
-				
-				}
+                    document.getElementById("productname").innerHTML = result[0];
+					document.getElementById("brandname").innerHTML = result[1];
+					document.getElementById("category").innerHTML = result[2];
+					document.getElementById("quantity").innerHTML = result[3];
+					document.getElementById("price").innerHTML = result[4];
+					document.getElementById("region").innerHTML = result[5];
+					
+					
+					
+                }
                
                 });
         }
 		
-		</script>
-		
-		<fieldset>
-		 <legend>Enter the details </legend>
+	</script>
+         <fieldset>
+		 <a href="manufacturer_registration.html"><b>Back</b> </a>
+		 <legend>View Details: </legend>
          <br>
-		<form>
+		 <form>
 		 <table style="margin:10px;">
 		 <tr>
-		 <td>Product Name:</td>
-		 <td><input type="text" id ="productname" name="productname" placeholder="Enter Product Name" required="" /></td>
-		 </tr>
-		 <tr>
-		 <td> Brand Name : </td>
-		 <td><input type="text" id="brandname" name="brandname" placeholder="Enter Brand Name" required=""/></td>
-		 </tr>
-		 <tr>
-		  <td><label for="productcategory">Product Type:</label>
-		 
-		  <select name="productcategory" id="productcategory">
-          <option value="Snacks">Snacks</option>
-          <option value="Cereals">Cereals</option>
-          <option value="BabyFoods">BabyFoods</option>
-		  <option value="Chocolates">Chocolates</option>
-          </select></td>
-		 <tr>
-		 <td>Quantity:</td>
-		 <td><input type="number" id="quantity" name="quantity" placeholder="Enter Quantity" required=""/></td>
-		 </tr>
+			<td>Product ID:</td>
+			<td><input type="text" id="productid" name="productid" placeholder="Enter Product ID"></td>
+		  </tr>
+		  <tr><td><input type="button" onclick="show_details()" value="Get Details"></td></tr>
+            <tr>
+			<td>Product Name:</td>
+			<td><div id="productname"></div></td>
+		  </tr>
 		  <tr>
-		 <td>Rate:</td>
-		 <td><input type="number" id="rate" name="rate" placeholder="Enter Rate" required=""/></td>
-		 </tr>
+			<td>Brand Name:</td>
+			<td><div id="brandname"></div></td>
+		  </tr>
+		  <tr>
+			<td>Product Type:</td>
+			<td><div id="category"></div></td>
+		  </tr>
+		  <tr>
+			<td>Quantity:</td>
+			<td><div id="quantity"></div></td>
+		  </tr>
+		  
+		   <tr>
+			<td>Price:</td>
+			<td><div id="price"></div></td>
+		  </tr>
+		  <tr>
+			<td>Region:</td>
+			<td><div id="region"></div></td>
+		  </tr>
 		 
-		 <tr>
-		 <td>Region:</td>
-		 <td><input type="text" id ="region" name="region" placeholder="Enter Region" required="" /></td>
-		 </tr>
-		 
-		 
-		 <tr>
-		  <td><input type="button" onclick="set_details()" value="Submit"></td>
-		 </tr>
-		
-		 </table>
-		 <h4> Transaction Id: <a href=""><div id="result"></div></a></h4> 
-		 <h4> Product ID: <a href=""><div id="result4"></div><a/a></h4>
-		 <a href="view_products.html"><b>Verify your Products</b> </a>
-	</form>
+		  
+		</form>
 	</fieldset>
-	   
+       
     </body>
 </html>
-		 
-		
-		
-		
-
-
-
